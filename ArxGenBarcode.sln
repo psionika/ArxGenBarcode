@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArxGenBarcode", "ArxGenBarcode\ArxGenBarcode.csproj", "{EFCFE600-55FA-43F8-B125-6B2771E9EC89}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EFCFE600-55FA-43F8-B125-6B2771E9EC89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFCFE600-55FA-43F8-B125-6B2771E9EC89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFCFE600-55FA-43F8-B125-6B2771E9EC89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFCFE600-55FA-43F8-B125-6B2771E9EC89}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {356D7F28-57B3-4953-914E-BC4D4B40963D}
+	EndGlobalSection
+EndGlobal
