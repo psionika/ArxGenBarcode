@@ -1,24 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using ZXing;
 using Microsoft.Win32;
 using AForge.Video;
 using AForge.Video.DirectShow;
-using System.IO;
-using System.Threading;
-using System.Drawing.Imaging;
-using ZXing.Common;
-using System.Windows.Input;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
-using System.Linq;
+using ZXing;
 
 namespace ArxGenBarcode
 {
@@ -328,8 +325,6 @@ namespace ArxGenBarcode
         [DllImport("user32.dll", SetLastError = true)]
         static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
 
-
-
         private void buttonParseScreen_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
@@ -342,7 +337,6 @@ namespace ArxGenBarcode
             const int VK_SHIFT = 0x10;
             const int S_KEY  = 0x53;
 
-
             keybd_event(VK_LWIN, 0, KEYEVENTF_EXTENDEDKEY, 0);
             keybd_event(VK_SHIFT, 0, KEYEVENTF_EXTENDEDKEY, 0);
             keybd_event(S_KEY, 0, KEYEVENTF_EXTENDEDKEY, 0);
@@ -351,6 +345,7 @@ namespace ArxGenBarcode
             keybd_event(VK_SHIFT, 0, KEYEVENTF_KEYUP, 0);
             keybd_event(VK_LWIN, 0, KEYEVENTF_KEYUP, 0);
 
+            //TODO!!!
             bool scissorsRuning = true;
 
             do
@@ -362,9 +357,7 @@ namespace ArxGenBarcode
                 if (!lisss.Any(x => x.ProcessName == "SnippingTool"))
                 {
                     scissorsRuning = false;
-                }
-                
-               
+                }                               
             }
             while (scissorsRuning);
 
