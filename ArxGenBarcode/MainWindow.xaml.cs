@@ -32,18 +32,13 @@ namespace ArxGenBarcode
             InitializeComponent();
             FillComboBox();
 
-
-            buttonGenerate_Click(this, null);
-            
+            buttonGenerate_Click(this, null);            
         }
 
         private void FillComboBox()
         {
-            var settings = new Settings();
-            comboBoxAllowFormat.ItemsSource = settings.PossibleFormats;
+            comboBoxAllowFormat.ItemsSource = Current.Settings.PossibleFormats;
             comboBoxAllowFormat.SelectedIndex = 0;
-
-
         }
 
         private void buttonGenerate_Click(object sender, RoutedEventArgs e)
@@ -136,7 +131,10 @@ namespace ArxGenBarcode
 
         private void buttonManageBarcodeFormatList_Click(object sender, RoutedEventArgs e)
         {
+            WindowListFormat windowListFormat = new WindowListFormat();
+            windowListFormat.ShowDialog();
 
+            FillComboBox();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -283,10 +281,8 @@ namespace ArxGenBarcode
             {
                 BarcodeReader reader = new BarcodeReader();
 
-                var settings = new Settings();
-
                 reader.Options.PureBarcode = true;
-                reader.Options.PossibleFormats = settings.PossibleFormats;
+                reader.Options.PossibleFormats = Current.Settings.PossibleFormats;
                 reader.Options.TryHarder = true;
 
                 reader.AutoRotate = true;
