@@ -8,34 +8,37 @@
         mc:Ignorable="d"
         Title="ArxGenBarcode" Height="700" Width="1200.288">
     <Grid>
-        <TextBox Name="textBoxBarcode" HorizontalAlignment="Left" Height="65" Margin="7,81,0,0" TextWrapping="Wrap" Text="293639798817660318649NTDW8TNKOJKLKME3JIQIG78LR33SLV2MOY03LNMMLFTHZ2JTWXG435FPISGRM7AXLTEU45O7AVTCY95YRZGYVPS203S36DU30A7EADCC8MIYZBT7B9WGUHD6T72000828" VerticalAlignment="Top" Width="415" TextChanged="textBoxBarcode_TextChanged"/>
-        <Label Content="Count: 150" Name="labelCount" HorizontalAlignment="Left" Margin="354,50,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.388,-0.094"/>
-        <Button Content="Generate" Name="buttonGenerate" HorizontalAlignment="Left" Margin="13,188,0,0" VerticalAlignment="Top" Width="90" Click="buttonGenerate_Click"/>
-        <Image Name="imageBarcode" HorizontalAlignment="Left" Height="250" Margin="120,222,0,0" VerticalAlignment="Top" Width="250" RenderTransformOrigin="0.5,0.5"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="193*"/>
+            <ColumnDefinition Width="205*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Name="textBoxBarcode" HorizontalAlignment="Left" Height="65" Margin="7,50,0,0" TextWrapping="Wrap" Text="293639798817660318649NTDW8TNKOJKLKME3JIQIG78LR33SLV2MOY03LNMMLFTHZ2JTWXG435FPISGRM7AXLTEU45O7AVTCY95YRZGYVPS203S36DU30A7EADCC8MIYZBT7B9WGUHD6T72000828" VerticalAlignment="Top" Width="415" TextChanged="textBoxBarcode_TextChanged"/>
+        <Label Content="Count: 150" Name="labelCount" HorizontalAlignment="Left" Margin="354,18,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.388,-0.094"/>
+        <Button Content="Generate" Name="buttonGenerate" HorizontalAlignment="Left" Margin="13,156,0,0" VerticalAlignment="Top" Width="90" Click="buttonGenerate_Click"/>
+        <Image Name="imageBarcode" HorizontalAlignment="Left" Height="250" Margin="86,184,0,0" VerticalAlignment="Top" Width="250" RenderTransformOrigin="0.5,0.5"/>
 
-        <Label Content="Format:" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top"/>
-        <ComboBox Name="comboBoxAllowFormat" HorizontalAlignment="Left" Margin="62,154,0,0" VerticalAlignment="Top" Width="163"/>
-        <Button Content="Print" Name="buttonPrint" HorizontalAlignment="Left" Margin="10,594,0,0" VerticalAlignment="Top" Width="133" Click="buttonPrint_Click"/>
-        <TextBox HorizontalAlignment="Left" Text="" Name="textBoxComment" Height="94" Margin="10,478,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308"/>
-        <Button Content="Add Noise" HorizontalAlignment="Left" Margin="120,188,0,0" VerticalAlignment="Top" Width="124" Click="Button_Click"/>
-        <Button Content="Read from image file" Name="buttonReadFile" HorizontalAlignment="Left" Margin="518,25,0,0" VerticalAlignment="Top" Width="124" Click="buttonReadFile_Click"/>
-        <Button Content="Parse web cam" x:Name="buttonParseWebCam" HorizontalAlignment="Left" Margin="518,207,0,0" VerticalAlignment="Top" Width="124" IsEnabled="False" Height="25"/>
-        <ListBox Name="listBoxBarcodeHistory" HorizontalAlignment="Left" Height="438" Margin="841,45,0,0" VerticalAlignment="Top" Width="309"/>
-        <Label Content="History barcode:" HorizontalAlignment="Left" Margin="841,19,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.304,-0.074"/>
-        <Button Content="Parse clipboard image" x:Name="buttonParseClipboard" HorizontalAlignment="Left" Margin="518,51,0,0" VerticalAlignment="Top" Width="124" Click="buttonParseClipboard_Click"/>
-        <Button Content="Parse screen" x:Name="buttonParseScreen" HorizontalAlignment="Left" Margin="518,76,0,0" VerticalAlignment="Top" Width="124" Click="buttonParseScreen_Click"/>
-        <Button Content="Manage list format" Name="buttonManageBarcodeFormatList" HorizontalAlignment="Left" Margin="243,154,0,0" VerticalAlignment="Top" Width="140" Height="22" Click="buttonManageBarcodeFormatList_Click"/>
-        <Button Content="Paste from clipboard" Name="buttonPasteFromClipboard" HorizontalAlignment="Left" Margin="7,59,0,0" VerticalAlignment="Top" Width="130" Click="buttonPasteFromClipboard_Click"/>
-        <Button Content="Copy text to clipboard" Name="buttonCopyToClipboard" HorizontalAlignment="Left" Margin="143,58,0,0" VerticalAlignment="Top" Width="130" Click="buttonCopyToClipboard_Click"/>
-        <Label Content="Comment: " HorizontalAlignment="Left" Margin="13,450,0,0" VerticalAlignment="Top"/>
-        <Button Content="Rotate" Name="buttonRotate" HorizontalAlignment="Left" Margin="312,188,0,0" VerticalAlignment="Top" Width="134" Click="buttonRotate_Click"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="259,188,0,0" TextWrapping="Wrap" Text="0.1" Name="textBoxNoise" VerticalAlignment="Top" Width="38"/>
-        <Button Content="Clear list" Name="buttonHistoryListClear" HorizontalAlignment="Left" Margin="1046,495,0,0" VerticalAlignment="Top" Width="75" Click="buttonHistoryListClear_Click" RenderTransformOrigin="1.331,0.708"/>
-        <Button Content="Select item" Name="buttonHistoryListSelectItem" HorizontalAlignment="Left" Margin="841,495,0,0" VerticalAlignment="Top" Width="75" Click="buttonHistoryListSelectItem_Click"/>
-        <Button Content="Copy barcode image to clipboard" Name="buttonBarcodeToClipboard" HorizontalAlignment="Left" Margin="13,430,0,0" VerticalAlignment="Top" Width="284" Click="buttonBarcodeToClipboard_Click"/>
+        <Label Content="Format:" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top"/>
+        <ComboBox Name="comboBoxAllowFormat" HorizontalAlignment="Left" Margin="62,122,0,0" VerticalAlignment="Top" Width="211" SelectionChanged="comboBoxAllowFormat_SelectionChanged"/>
+        <Button Content="Print" Name="buttonPrint" HorizontalAlignment="Left" Margin="7,641,0,0" VerticalAlignment="Top" Width="133" Click="buttonPrint_Click"/>
+        <TextBox HorizontalAlignment="Left" Text="" Name="textBoxComment" Height="94" Margin="10,505,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308"/>
+        <Button Content="Add Noise" HorizontalAlignment="Left" Margin="120,156,0,0" VerticalAlignment="Top" Width="124" Click="ButtonNoise_Click"/>
+        <Button Content="Read from image file" Name="buttonReadFile" HorizontalAlignment="Left" Margin="518,25,0,0" VerticalAlignment="Top" Width="124" Click="buttonReadFile_Click" Grid.ColumnSpan="2"/>
 
+        <ListBox Name="listBoxBarcodeHistory" HorizontalAlignment="Left" Height="438" Margin="262.27,45,0,0" VerticalAlignment="Top" Width="309" Grid.Column="1"/>
+        <Label Content="History barcode:" HorizontalAlignment="Left" Margin="262.27,19,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.304,-0.074" Grid.Column="1"/>
+        <Button Content="Parse clipboard image" x:Name="buttonParseClipboard" HorizontalAlignment="Left" Margin="518,51,0,0" VerticalAlignment="Top" Width="124" Click="buttonParseClipboard_Click" Grid.ColumnSpan="2"/>
+        <Button Content="Parse screen" x:Name="buttonParseScreen" HorizontalAlignment="Left" Margin="518,76,0,0" VerticalAlignment="Top" Width="124" Click="buttonParseScreen_Click" Grid.ColumnSpan="2"/>
+        <Button Content="Manage list format" Name="buttonManageBarcodeFormatList" HorizontalAlignment="Left" Margin="290,122,0,0" VerticalAlignment="Top" Width="140" Height="22" Click="buttonManageBarcodeFormatList_Click"/>
+        <Button Content="Paste from clipboard" Name="buttonPasteFromClipboard" HorizontalAlignment="Left" Margin="7,27,0,0" VerticalAlignment="Top" Width="130" Click="buttonPasteFromClipboard_Click"/>
+        <Button Content="Copy text to clipboard" Name="buttonCopyToClipboard" HorizontalAlignment="Left" Margin="143,26,0,0" VerticalAlignment="Top" Width="130" Click="buttonCopyToClipboard_Click"/>
+        <Label Content="Comment: " HorizontalAlignment="Left" Margin="13,477,0,0" VerticalAlignment="Top"/>
+        <Button Content="Rotate" Name="buttonRotate" HorizontalAlignment="Left" Margin="312,156,0,0" VerticalAlignment="Top" Width="134" Click="buttonRotate_Click"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="259,156,0,0" TextWrapping="Wrap" Text="0.1" Name="textBoxNoise" VerticalAlignment="Top" Width="38"/>
+        <Button Content="Clear list" Name="buttonHistoryListClear" HorizontalAlignment="Left" Margin="496.333,495,0,0" VerticalAlignment="Top" Width="75" Click="buttonHistoryListClear_Click" RenderTransformOrigin="1.331,0.708" Grid.Column="1"/>
+        <Button Content="Select item" Name="buttonHistoryListSelectItem" HorizontalAlignment="Left" Margin="262.27,495,0,0" VerticalAlignment="Top" Width="75" Click="buttonHistoryListSelectItem_Click" Grid.Column="1"/>
+        <Button Content="Copy image to clipboard" Name="buttonBarcodeToClipboard" HorizontalAlignment="Left" Margin="19,453,0,0" VerticalAlignment="Top" Width="155" Click="buttonBarcodeToClipboard_Click"/>
 
-        <ComboBox HorizontalAlignment="Left"  DisplayMemberPath="Name" SelectionChanged="OnSelectionChanged"  Name="comboBoxListWebCam" Margin="655,207,0,0" VerticalAlignment="Top" Width="161" RenderTransformOrigin="0.5,0.5">
+        <ComboBox HorizontalAlignment="Left"  DisplayMemberPath="Name" SelectionChanged="OnSelectionChanged"  Name="comboBoxListWebCam" Margin="519,370,0,0" VerticalAlignment="Top" Width="247" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2" Height="23">
             <ComboBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -45,10 +48,11 @@
                 </TransformGroup>
             </ComboBox.RenderTransform>
         </ComboBox>
-        <Button Content="StartCapture" Name="buttonStartWebCamCapture" HorizontalAlignment="Left" Margin="571,483,0,0" VerticalAlignment="Top" Width="75" Click="buttonStartWebCamCapture_Click"/>
-        <Button Content="Stop"  IsEnabled="{Binding Path=IsCapturing, ElementName=webCameraControl}" Name="buttonStopWebCam" HorizontalAlignment="Left" Margin="664,483,0,0" VerticalAlignment="Top" Width="75" Click="buttonStopWebCam_Click"/>
-        <Image Name="webCam" HorizontalAlignment="Left" Height="208" Margin="522,250,0,0" VerticalAlignment="Top" Width="247"/>
-        <Button Content="Remove selected" x:Name="buttonHistoryRemoveSelected" HorizontalAlignment="Left" Margin="921,495,0,0" VerticalAlignment="Top" Width="120" Click="buttonHistoryRemoveSelected_Click"/>
+        <Button Content="StartCapture" Name="buttonStartWebCamCapture" HorizontalAlignment="Left" Margin="567,642,0,0" VerticalAlignment="Top" Width="75" Click="buttonStartWebCamCapture_Click" Grid.ColumnSpan="2" Height="21"/>
+        <Button Content="Stop"  IsEnabled="{Binding Path=IsCapturing, ElementName=webCameraControl}" Name="buttonStopWebCam" HorizontalAlignment="Left" Margin="81.333,642,0,0" VerticalAlignment="Top" Width="75" Click="buttonStopWebCam_Click" Grid.Column="1" Height="21"/>
+        <Image Name="webCam" HorizontalAlignment="Left" Height="215" Margin="518,401,0,0" VerticalAlignment="Top" Width="247" Grid.ColumnSpan="2"/>
+        <Button Content="Remove selected" x:Name="buttonHistoryRemoveSelected" HorizontalAlignment="Left" Margin="362.333,495,0,0" VerticalAlignment="Top" Width="120" Click="buttonHistoryRemoveSelected_Click" Grid.Column="1"/>
+        <Button Content="Save image to file" x:Name="buttonBarcodeImageToFile" HorizontalAlignment="Left" Margin="192,453,0,0" VerticalAlignment="Top" Width="155" Click="buttonBarcodeImageToFile_Click"/>
 
     </Grid>
 </Window>

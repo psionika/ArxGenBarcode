@@ -74,6 +74,7 @@ namespace ArxGenBarcode
             bmp.UnlockBits(data);
             return bmp;
         }
+
     }
 
     /// <summary>

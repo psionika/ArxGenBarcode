@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArxGenBarcode"
         mc:Ignorable="d"
-        Title="Available formats" Height="540" Width="400">
+        Title="Available formats" Height="540" Width="400" ResizeMode="NoResize">
     
     <Grid Background="#FFFFFF">
         <Grid.RowDefinitions>

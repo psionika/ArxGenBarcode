@@ -15,7 +15,7 @@ namespace ArxGenBarcode
         {
             InitializeComponent();
 
-            List<Format> allFormat = new List<Format>();
+            var allFormat = new List<Format>();
 
             foreach (BarcodeFormat format in (BarcodeFormat[])Enum.GetValues(typeof(BarcodeFormat)))
             {

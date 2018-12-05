@@ -109,7 +109,9 @@ namespace ArxGenBarcode
         private void buttonCopyToClipboard_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(textBoxBarcode.Text))
+            {
                 Clipboard.SetText(textBoxBarcode.Text);
+            }                
         }
 
         private void buttonPasteFromClipboard_Click(object sender, RoutedEventArgs e)
@@ -176,7 +178,7 @@ namespace ArxGenBarcode
             if(imageBarcode != null)
             {
                 var image = imageBarcode.Source as BitmapImage;
-               Clipboard.SetImage(image);
+                Clipboard.SetImage(image);
             }
         }
 
@@ -221,7 +223,7 @@ namespace ArxGenBarcode
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
         }
 
         private void buttonStopWebCam_Click(object sender, RoutedEventArgs e)
@@ -232,7 +234,7 @@ namespace ArxGenBarcode
         private void buttonReadFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog myDialog = new OpenFileDialog();
-            myDialog.Filter = "Image(*.PNG;*.JPG;*.GIF)|*.Png;*.JPG;*.GIF" + "|Все файлы (*.*)|*.* ";
+            myDialog.Filter = "Image(*.PNG;*.BMP;*.JPG;*.GIF)|*.Png;*.BMP;*.JPG;*.GIF" + "|All files (*.*)|*.* ";
             myDialog.CheckFileExists = true;
             myDialog.Multiselect = false;
 
@@ -243,16 +245,21 @@ namespace ArxGenBarcode
             }
         }
 
-        private void parseImageFile(string filename)
+        private void buttonBarcodeImageToFile_Click(object sender, RoutedEventArgs e)
         {
-            try
+            var dlg = new SaveFileDialog();
+
+            dlg.FileName = "Image";
+            dlg.DefaultExt = ".png";
+            dlg.Filter = "Image file (.png)|*.png";
+
+            var result = dlg.ShowDialog();
+
+            if (result == true)
             {
-                Bitmap bitmap = (Bitmap)Bitmap.FromFile(filename);
-                decode(bitmap);
-            }
-            catch (Exception)
-            {
-                throw new FileNotFoundException("Resource not found: " + filename);
+                var bitmapBarcode = Barcode.Generate(textBoxBarcode.Text, (BarcodeFormat)comboBoxAllowFormat.SelectedItem, GetNoiseValue(), false);
+                
+                bitmapBarcode.Save(dlg.FileName, ImageFormat.Png);
             }
         }
 
@@ -341,8 +348,7 @@ namespace ArxGenBarcode
             finally
             {
                 this.WindowState = WindowState.Normal;
-            }
-            
+            }            
         }
 
         private void buttonHistoryRemoveSelected_Click(object sender, RoutedEventArgs e)
