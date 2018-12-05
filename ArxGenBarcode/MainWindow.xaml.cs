@@ -24,6 +24,8 @@ namespace ArxGenBarcode
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool noised = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,48 +40,41 @@ namespace ArxGenBarcode
             comboBoxAllowFormat.SelectedIndex = 0;
         }
 
-        private void buttonGenerate_Click(object sender, RoutedEventArgs e)
+        private void SetImageBarcodeSource()
         {
             if (!string.IsNullOrEmpty(textBoxBarcode.Text))
             {
-                var bitmapBarcode = GenerateBarcode(textBoxBarcode.Text, (BarcodeFormat)comboBoxAllowFormat.SelectedItem);
+                var bitmapBarcode = Barcode.Generate(textBoxBarcode.Text,
+                                                     (BarcodeFormat)comboBoxAllowFormat.SelectedItem,
+                                                     GetNoiseValue(),
+                                                     false);
 
                 imageBarcode.Source = bitmapBarcode.ToWpfImage();
 
                 listBoxBarcodeHistory.Items.Add(textBoxBarcode.Text);
             }
         }
-
-        private Bitmap GenerateBarcode(string code, BarcodeFormat barcodeFormat)
+        
+        private void buttonGenerate_Click(object sender, RoutedEventArgs e)
         {
-            var bitmap = new Bitmap(1,1);
-
-            try
-            {
-                var writer = new BarcodeWriter
-                {
-                    Format = barcodeFormat
-                };
-
-                bitmap = writer.Write(code);
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }            
-
-            return bitmap;
+            noised = false;
+            SetImageBarcodeSource();
         }
 
         private void textBoxBarcode_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(textBoxBarcode != null && !string.IsNullOrEmpty(textBoxBarcode.Text) && labelCount != null && labelCount.Content != null)
+            if(textBoxBarcode != null 
+               && !string.IsNullOrEmpty(textBoxBarcode.Text) 
+               && labelCount != null && labelCount.Content != null)
+            {
                 labelCount.Content = textBoxBarcode?.Text?.Length.ToString();
+            }                
         }
 
         private void buttonPrint_Click(object sender, RoutedEventArgs e)
         {
             BitmapImage bi = (BitmapImage)imageBarcode.Source; 
+
             System.Windows.Controls.Image image = new System.Windows.Controls.Image();
             image.Source = bi;
             image.Height = 200;            
@@ -128,50 +123,36 @@ namespace ArxGenBarcode
 
         private void buttonManageBarcodeFormatList_Click(object sender, RoutedEventArgs e)
         {
-            WindowListFormat windowListFormat = new WindowListFormat();
+            var windowListFormat = new WindowListFormat();
             windowListFormat.ShowDialog();
 
             FillComboBox();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private float GetNoiseValue()
         {
-            var bitmapBarcode = GenerateBarcode(textBoxBarcode.Text, (BarcodeFormat)comboBoxAllowFormat.SelectedItem);
+            if (!noised) return 0;
 
-            var noiseString = textBoxNoise.Text;
+            string noiseString = textBoxNoise.Text;
+
             string uiSep = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
-
             noiseString = noiseString.Replace(".", uiSep).Replace(",", uiSep);
-            float noise = Convert.ToSingle(noiseString);            
+            float noise = Convert.ToSingle(noiseString);
 
-            var noisedBarcode = Helpers.AddSpeckleNoise(bitmapBarcode, noise);
-
-            imageBarcode.Source = noisedBarcode.ToWpfImage();
+            return noise;
         }
 
-        //TODO https://stackoverflow.com/questions/37305269/how-to-rotate-image-more-than-once-in-wpf
-        double currentRotate = 0;
+        private void ButtonNoise_Click(object sender, RoutedEventArgs e)
+        {
+            noised = true;
+
+            SetImageBarcodeSource();
+        }
+
         private void buttonRotate_Click(object sender, RoutedEventArgs e)
         {
-            switch (currentRotate)
-            {
-                case 0:
-                    currentRotate = 90;
-                    break;
-                case 90:
-                    currentRotate = 180;
-                    break;
-                case 180:
-                    currentRotate = 270;
-                    break;
-                case 270:
-                    currentRotate = 0;
-                    break;
-            }
-
-            var rotateTransform = new RotateTransform(currentRotate);
-
-            imageBarcode.RenderTransform = rotateTransform;
+            var bitmapBarcode = Barcode.Generate(textBoxBarcode.Text, (BarcodeFormat)comboBoxAllowFormat.SelectedItem, GetNoiseValue(), true);
+            imageBarcode.Source = bitmapBarcode.ToWpfImage();
         }
 
         private void buttonHistoryListClear_Click(object sender, RoutedEventArgs e)
@@ -185,6 +166,8 @@ namespace ArxGenBarcode
                && listBoxBarcodeHistory.SelectedItem != null)
             {
                 textBoxBarcode.Text = listBoxBarcodeHistory.SelectedItem.ToString();
+
+                SetImageBarcodeSource();
             }
         }
 
@@ -255,7 +238,8 @@ namespace ArxGenBarcode
 
             if (myDialog.ShowDialog() == true)
             {
-                parseImageFile(myDialog.FileName);
+                Bitmap bitmap = (Bitmap)Bitmap.FromFile(myDialog.FileName);
+                ProcessResult(Barcode.Decode(bitmap));
             }
         }
 
@@ -272,38 +256,19 @@ namespace ArxGenBarcode
             }
         }
 
-        public Result decode(Bitmap image)
+        private void ProcessResult(Result result)
         {
-            using (image)
+            if (result != null)
             {
-                BarcodeReader reader = new BarcodeReader();
 
-                reader.Options.PureBarcode = true;
-                reader.Options.PossibleFormats = Current.Settings.PossibleFormats;
-                reader.Options.TryHarder = true;
+                comboBoxAllowFormat.SelectedItem = result.BarcodeFormat;
+                textBoxBarcode.Text = result.Text;
 
-                reader.AutoRotate = true;
-                reader.TryInverted = true;
-
-                var result = reader.Decode(image);
-
-
-                if (result != null)
-                {
-                    currentRotate = 270;
-                    buttonRotate_Click(this, null);
-
-                    comboBoxAllowFormat.SelectedItem = result.BarcodeFormat;
-                    textBoxBarcode.Text = result.Text;
-
-                    buttonGenerate_Click(this, null);
-                }
-                else
-                {
-                    textBoxBarcode.Text = "error read barcode from image";
-                }
-
-                return result;
+                buttonGenerate_Click(this, null);
+            }
+            else
+            {
+                textBoxBarcode.Text = "error read barcode from image";
             }
         }
 
@@ -314,7 +279,7 @@ namespace ArxGenBarcode
                 var image = Clipboard.GetImage();
                 var bitmap = image.GetBitmap();
                 imageBarcode.Source = bitmap.ToWpfImage();
-                decode(bitmap);
+                ProcessResult(Barcode.Decode(bitmap));
             }
             catch (Exception ex)
             {
@@ -366,7 +331,8 @@ namespace ArxGenBarcode
                 var image = Clipboard.GetImage();
                 var bitmap = image.GetBitmap();
                 imageBarcode.Source = bitmap.ToWpfImage();
-                decode(bitmap);
+
+                ProcessResult(Barcode.Decode(bitmap));
             }
             catch (Exception ex)
             {
@@ -387,6 +353,11 @@ namespace ArxGenBarcode
             {
                 listBoxBarcodeHistory.Items.Remove(item);
             }                
+        }
+
+        private void comboBoxAllowFormat_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SetImageBarcodeSource();
         }
     }
 }

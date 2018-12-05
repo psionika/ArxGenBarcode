@@ -79,6 +79,7 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="Barcode.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="WindowListFormat.xaml.cs">
       <DependentUpon>WindowListFormat.xaml</DependentUpon>
