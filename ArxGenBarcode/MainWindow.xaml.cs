@@ -378,5 +378,15 @@ namespace ArxGenBarcode
             }
             
         }
+
+        private void buttonHistoryRemoveSelected_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = listBoxBarcodeHistory.SelectedItems.Cast<Object>().ToArray();
+
+            foreach (var item in selected)
+            {
+                listBoxBarcodeHistory.Items.Remove(item);
+            }                
+        }
     }
 }

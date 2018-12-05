@@ -30,9 +30,9 @@
         <Label Content="Comment: " HorizontalAlignment="Left" Margin="13,450,0,0" VerticalAlignment="Top"/>
         <Button Content="Rotate" Name="buttonRotate" HorizontalAlignment="Left" Margin="312,188,0,0" VerticalAlignment="Top" Width="134" Click="buttonRotate_Click"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="259,188,0,0" TextWrapping="Wrap" Text="0.1" Name="textBoxNoise" VerticalAlignment="Top" Width="38"/>
-        <Button Content="Clear list" Name="buttonHistoryListClear" HorizontalAlignment="Left" Margin="953,495,0,0" VerticalAlignment="Top" Width="75" Click="buttonHistoryListClear_Click"/>
-        <Button Content="Select item" Name="buttonHistoryListSelectItem" HorizontalAlignment="Left" Margin="854,495,0,0" VerticalAlignment="Top" Width="75" Click="buttonHistoryListSelectItem_Click"/>
-        <Button Content="Copy barcode to clipboard" Name="buttonBarcodeToClipboard" HorizontalAlignment="Left" Margin="161,594,0,0" VerticalAlignment="Top" Width="164" Click="buttonBarcodeToClipboard_Click"/>
+        <Button Content="Clear list" Name="buttonHistoryListClear" HorizontalAlignment="Left" Margin="1046,495,0,0" VerticalAlignment="Top" Width="75" Click="buttonHistoryListClear_Click" RenderTransformOrigin="1.331,0.708"/>
+        <Button Content="Select item" Name="buttonHistoryListSelectItem" HorizontalAlignment="Left" Margin="841,495,0,0" VerticalAlignment="Top" Width="75" Click="buttonHistoryListSelectItem_Click"/>
+        <Button Content="Copy barcode image to clipboard" Name="buttonBarcodeToClipboard" HorizontalAlignment="Left" Margin="13,430,0,0" VerticalAlignment="Top" Width="284" Click="buttonBarcodeToClipboard_Click"/>
 
 
         <ComboBox HorizontalAlignment="Left"  DisplayMemberPath="Name" SelectionChanged="OnSelectionChanged"  Name="comboBoxListWebCam" Margin="655,207,0,0" VerticalAlignment="Top" Width="161" RenderTransformOrigin="0.5,0.5">
@@ -48,6 +48,7 @@
         <Button Content="StartCapture" Name="buttonStartWebCamCapture" HorizontalAlignment="Left" Margin="571,483,0,0" VerticalAlignment="Top" Width="75" Click="buttonStartWebCamCapture_Click"/>
         <Button Content="Stop"  IsEnabled="{Binding Path=IsCapturing, ElementName=webCameraControl}" Name="buttonStopWebCam" HorizontalAlignment="Left" Margin="664,483,0,0" VerticalAlignment="Top" Width="75" Click="buttonStopWebCam_Click"/>
         <Image Name="webCam" HorizontalAlignment="Left" Height="208" Margin="522,250,0,0" VerticalAlignment="Top" Width="247"/>
+        <Button Content="Remove selected" x:Name="buttonHistoryRemoveSelected" HorizontalAlignment="Left" Margin="921,495,0,0" VerticalAlignment="Top" Width="120" Click="buttonHistoryRemoveSelected_Click"/>
 
     </Grid>
 </Window>
