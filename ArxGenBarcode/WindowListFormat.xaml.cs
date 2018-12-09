@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using ZXing;
+using ArxGenBarcode.DataModels;
 
 namespace ArxGenBarcode
 {
@@ -35,19 +36,6 @@ namespace ArxGenBarcode
                                                        .ToList();
 
             Close();
-        }
-
-        private class Format
-        {
-            public bool IsAllow { get; set; }
-
-            public BarcodeFormat BarcodeFormat { get; set; }
-
-            public Format(bool isAllow, BarcodeFormat barcodeFormat)
-            {
-                this.IsAllow = isAllow;
-                this.BarcodeFormat = barcodeFormat;
-            }
         }
     }
 }
