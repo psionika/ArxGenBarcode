@@ -16,6 +16,8 @@ using Microsoft.Win32;
 using AForge.Video;
 using AForge.Video.DirectShow;
 using ZXing;
+using System.Collections.Generic;
+using ArxGenBarcode.DataModels;
 
 namespace ArxGenBarcode
 {
@@ -31,7 +33,7 @@ namespace ArxGenBarcode
             InitializeComponent();
             FillComboBox();
 
-            buttonGenerate_Click(this, null);            
+            SetImageBarcodeSource();
         }
 
         private void FillComboBox()
@@ -44,17 +46,65 @@ namespace ArxGenBarcode
         {
             if (!string.IsNullOrEmpty(textBoxBarcode.Text))
             {
+                var format = (BarcodeFormat)comboBoxAllowFormat.SelectedItem;
+
                 var bitmapBarcode = Barcode.Generate(textBoxBarcode.Text,
-                                                     (BarcodeFormat)comboBoxAllowFormat.SelectedItem,
+                                                     format,
                                                      GetNoiseValue(),
                                                      false);
 
                 imageBarcode.Source = bitmapBarcode.ToWpfImage();
 
-                listBoxBarcodeHistory.Items.Add(textBoxBarcode.Text);
+                AddToHistory(textBoxBarcode.Text, format);
             }
         }
-        
+
+        private void AddToHistory(string barcode, BarcodeFormat format)
+        {
+            if (listBoxBarcodeHistory.Items.Count > 0)
+            {
+                var selected = listBoxBarcodeHistory.Items.Cast<HistoryElement>().Last();
+
+                if (selected.Barcode != barcode
+                    || selected.Format != format)
+                {
+                    listBoxBarcodeHistory.Items.Add(new HistoryElement(DateTime.Now, format, barcode));
+                }
+            }
+            else
+            {
+                listBoxBarcodeHistory.Items.Add(new HistoryElement(DateTime.Now, format, barcode));
+            }            
+        }
+
+        private void ProcessResult(Result result)
+        {
+            if (result != null)
+            {
+                comboBoxAllowFormat.SelectedItem = result.BarcodeFormat;
+                textBoxBarcode.Text = result.Text;
+
+                buttonGenerate_Click(this, null);
+            }
+            else
+            {
+                textBoxBarcode.Text = "error read barcode from image";
+            }
+        }
+
+        private float GetNoiseValue()
+        {
+            if (!noised) return 0;
+
+            string noiseString = textBoxNoise.Text;
+
+            string uiSep = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
+            noiseString = noiseString.Replace(".", uiSep).Replace(",", uiSep);
+            float noise = Convert.ToSingle(noiseString);
+
+            return noise;
+        }
+
         private void buttonGenerate_Click(object sender, RoutedEventArgs e)
         {
             noised = false;
@@ -63,9 +113,9 @@ namespace ArxGenBarcode
 
         private void textBoxBarcode_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(textBoxBarcode != null 
-               && !string.IsNullOrEmpty(textBoxBarcode.Text) 
-               && labelCount != null && labelCount.Content != null)
+            if(!string.IsNullOrEmpty(textBoxBarcode.Text) 
+               && labelCount != null 
+               && labelCount.Content != null)
             {
                 labelCount.Content = textBoxBarcode?.Text?.Length.ToString();
             }                
@@ -131,19 +181,6 @@ namespace ArxGenBarcode
             FillComboBox();
         }
 
-        private float GetNoiseValue()
-        {
-            if (!noised) return 0;
-
-            string noiseString = textBoxNoise.Text;
-
-            string uiSep = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
-            noiseString = noiseString.Replace(".", uiSep).Replace(",", uiSep);
-            float noise = Convert.ToSingle(noiseString);
-
-            return noise;
-        }
-
         private void ButtonNoise_Click(object sender, RoutedEventArgs e)
         {
             noised = true;
@@ -167,7 +204,11 @@ namespace ArxGenBarcode
             if(listBoxBarcodeHistory.Items.Count > 0 
                && listBoxBarcodeHistory.SelectedItem != null)
             {
-                textBoxBarcode.Text = listBoxBarcodeHistory.SelectedItem.ToString();
+                var selected = listBoxBarcodeHistory.SelectedItems.Cast<HistoryElement>().First();
+
+                comboBoxAllowFormat.SelectedItem = selected.Format;
+
+                textBoxBarcode.Text = selected.Barcode.ToString();
 
                 SetImageBarcodeSource();
             }
@@ -228,7 +269,8 @@ namespace ArxGenBarcode
 
         private void buttonStopWebCam_Click(object sender, RoutedEventArgs e)
         {
-            LocalWebCam.Stop();
+            if(LocalWebCam != null)
+                LocalWebCam.Stop();
         }
 
         private void buttonReadFile_Click(object sender, RoutedEventArgs e)
@@ -263,22 +305,6 @@ namespace ArxGenBarcode
             }
         }
 
-        private void ProcessResult(Result result)
-        {
-            if (result != null)
-            {
-
-                comboBoxAllowFormat.SelectedItem = result.BarcodeFormat;
-                textBoxBarcode.Text = result.Text;
-
-                buttonGenerate_Click(this, null);
-            }
-            else
-            {
-                textBoxBarcode.Text = "error read barcode from image";
-            }
-        }
-
         private void buttonParseClipboard_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -294,36 +320,18 @@ namespace ArxGenBarcode
             }
         }
 
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
-
         private void buttonParseScreen_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
             var allProcesses = Process.GetProcesses().ToList();
 
-            const int KEYEVENTF_EXTENDEDKEY = 0x0001; //Key down flag
-            const int KEYEVENTF_KEYUP = 0x0002; //Key up flag
-
-            const int VK_LWIN = 0x5B;
-            const int VK_SHIFT = 0x10;
-            const int S_KEY  = 0x53;
-
-            keybd_event(VK_LWIN, 0, KEYEVENTF_EXTENDEDKEY, 0);
-            keybd_event(VK_SHIFT, 0, KEYEVENTF_EXTENDEDKEY, 0);
-            keybd_event(S_KEY, 0, KEYEVENTF_EXTENDEDKEY, 0);
-            Thread.Sleep(50);
-            keybd_event(S_KEY, 0, KEYEVENTF_KEYUP, 0);
-            keybd_event(VK_SHIFT, 0, KEYEVENTF_KEYUP, 0);
-            keybd_event(VK_LWIN, 0, KEYEVENTF_KEYUP, 0);
+            Helpers.PressKeysToScissors();
 
             //TODO!!!
             bool scissorsRuning = true;
 
             do
             {
-                Thread.Sleep(150);
-
                 var lisss = Process.GetProcesses().Except(allProcesses).ToList();
 
                 if (!lisss.Any(x => x.ProcessName == "SnippingTool"))
