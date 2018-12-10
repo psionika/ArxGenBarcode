@@ -80,6 +80,8 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Barcode.cs" />
+    <Compile Include="Converters\ItemsCountToIsEnableConverter.cs" />
+    <Compile Include="Converters\NullVisibilityConverter.cs" />
     <Compile Include="DataModels\Format.cs" />
     <Compile Include="DataModels\HistoryElement.cs" />
     <Compile Include="Settings.cs" />

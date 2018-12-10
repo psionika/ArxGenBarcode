@@ -3,99 +3,123 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:ArxGenBarcode.Converters"
+        
         mc:Ignorable="d"
-        Title="ArxGenBarcode" Height="700" Width="1000" ResizeMode="NoResize">
+        Title="ArxGenBarcode" Height="700" Width="1000" ResizeMode="CanMinimize">
     
-        <Grid >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200*"/>
-                <ColumnDefinition Width="200*"/>
-                <ColumnDefinition Width="200*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="300*"/>
-                <RowDefinition Height="100*"/>
-            </Grid.RowDefinitions>
+    <Window.Resources>
+        <converters:ItemsCountToIsEnableConverter x:Key="itemsCountToIsEnableConverter" />
+    </Window.Resources>
+
+    <Grid>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="200*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300*"/>
+            <RowDefinition Height="100*"/>
+        </Grid.RowDefinitions>
 
         <Border BorderThickness="0 0 1 0" BorderBrush="LightBlue" Grid.Column="0" Grid.Row="0" />
         <Border BorderThickness="1 0 0 0" BorderBrush="LightBlue" Grid.Column="2" Grid.Row="0" />
         <Border BorderThickness="0 1 0 0" BorderBrush="LightBlue" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"/>
-            
+
+        <!-- Generation block -->
         <StackPanel Grid.Row="0" Grid.Column="0">
 
-                <Button Content="Paste from clipboard" Margin="20" Name="buttonPasteFromClipboard" Click="buttonPasteFromClipboard_Click"/>
-                <TextBox Name="textBoxBarcode" Margin="20 0 20 0" Height="80" TextWrapping="Wrap" Text="293639798817660318649NTDW8TNKOJKLKME3JIQIG78LR33SLV2MOY03LNMMLFTHZ2JTWXG435FPISGRM7AXLTEU45O7AVTCY95YRZGYVPS203S36DU30A7EADCC8MIYZBT7B9WGUHD6T72000828" TextChanged="textBoxBarcode_TextChanged"/>
-                <Label Content="Barcode length: 150" Name="labelCount" Margin="20 0 20 0"/>
-                <Button Content="Copy text to clipboard" Margin="20 0 20 0" Name="buttonCopyToClipboard" Click="buttonCopyToClipboard_Click"/>
+            <Button Content="Paste from clipboard" Margin="20" Name="buttonPasteFromClipboard" Click="buttonPasteFromClipboard_Click"/>
+            <TextBox Name="textBoxBarcode" Margin="20 0 20 0" Height="80" TextWrapping="Wrap" Text="293639798817660318649NTDW8TNKOJKLKME3JIQIG78LR33SLV2MOY03LNMMLFTHZ2JTWXG435FPISGRM7AXLTEU45O7AVTCY95YRZGYVPS203S36DU30A7EADCC8MIYZBT7B9WGUHD6T72000828" TextChanged="textBoxBarcode_TextChanged"/>
+            <Label Content="Barcode length: 150" Name="labelCount" Margin="20 0 20 0"/>
+            <Button Content="Copy text to clipboard" Margin="20 0 20 0" Name="buttonCopyToClipboard" Click="buttonCopyToClipboard_Click"/>
 
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Format:" Margin="20 20 20 0" />
-                    <ComboBox Width="150"  Margin="0 20 0 0" Name="comboBoxAllowFormat" SelectionChanged="comboBoxAllowFormat_SelectionChanged"/>
-                    <Button Margin="17 20 0 0" Content=" Manage " Name="buttonManageBarcodeFormatList"  Click="buttonManageBarcodeFormatList_Click"/>
-                </StackPanel>
-
-                <Button Content="Rotate" Margin="20 20 20 0" Name="buttonRotate"  Click="buttonRotate_Click"/>
-
-                <StackPanel  Orientation="Horizontal">
-
-                    <Label Content="Noise level:"  Margin="20 20 0 0" />
-                    <TextBox Text="0.1" Name="textBoxNoise"  Margin="10 20 20 0" />
-                    <Button Content="Add Noise" Click="ButtonNoise_Click" Width="120" Margin="20 20 20 0" />
-                </StackPanel>
-
-                <Button Content="Generate" Margin="20 20 20 0" FontSize="22" Name="buttonGenerate" Click="buttonGenerate_Click"/>
-
-                <Label Content="Comment: " Margin="20 20 20 0"/>
-                <TextBox Text="" Name="textBoxComment" Margin="20 0 20 0" Height="40" TextWrapping="Wrap" />
-
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="Print" Width="80" Margin="20 5 0 40" Name="buttonPrint" Click="buttonPrint_Click"/>
-                    <Button Content="PDF" Width="80" Margin="20 5 0 40"  IsEnabled="False" Name="buttonExportToPDF"/>
-                </StackPanel>
-
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Content="Format:" Margin="0 20 10 0" />
+                <ComboBox Width="150"  Margin="0 20 0 0" Name="comboBoxAllowFormat" SelectionChanged="comboBoxAllowFormat_SelectionChanged"/>
+                <Button Margin="16 20 0 0" Content=" Manage " Name="buttonManageBarcodeFormatList"  Click="buttonManageBarcodeFormatList_Click"/>
             </StackPanel>
 
-            <StackPanel Grid.Row="0" Grid.Column="1">
-                <Image Name="imageBarcode" Height="350" Margin="20"/>
-                <Button Content="Copy image to clipboard" Margin="20 0 20 10" Name="buttonBarcodeToClipboard" Click="buttonBarcodeToClipboard_Click" />
-                <Button Content="Save image to file" Margin="20 0 20 0" Name="buttonBarcodeImageToFile" Click="buttonBarcodeImageToFile_Click"/>
+            <Button Content="Rotate" Margin="20 20 20 0" Name="buttonRotate"  Click="buttonRotate_Click"/>
+
+            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
+
+                <Label Content="Noise level:"  Margin="20 20 0 0" />
+                <TextBox VerticalAlignment="Center" Text="0.1" Name="textBoxNoise"  Margin="10 20 10 0" />
+                <Button Content="Add Noise" Click="ButtonNoise_Click" Width="120" Margin="20 20 20 0" />
+                
             </StackPanel>
 
-            <StackPanel Grid.Row="0" Grid.Column="2" >
-                <Button Content="Read from image file" Margin="20 20 20 0" Name="buttonReadFile" Click="buttonReadFile_Click"/>
-                <Button Content="Parse clipboard image" Margin="20 10 20 0" Name="buttonParseClipboard" Click="buttonParseClipboard_Click"/>
-                <Button Content="Parse screen" Margin="20 10 20 0" Name="buttonParseScreen" Click="buttonParseScreen_Click"/>
+            <Button Content="Generate" Margin="20 20 20 0" FontSize="22" Name="buttonGenerate" Click="buttonGenerate_Click"/>
 
-                <ComboBox DisplayMemberPath="Name"  Margin="20 20 20 20" SelectionChanged="OnSelectionChanged"  Name="comboBoxListWebCam" Width="200"/>
+            <Label Content="Comment: " Margin="20 20 20 0"/>
+            <TextBox Text="" Name="textBoxComment" Margin="20 0 20 0" Height="40" TextWrapping="Wrap" />
 
-                <Image Name="webCam"  Height="240" Width="320"/>
-
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="StartCapture"  Margin="20 10 20 0" Width="100" Name="buttonStartWebCamCapture" Click="buttonStartWebCamCapture_Click"/>
-                    <Button Content="Stop" Margin="20 10 20 0"  Width="100" IsEnabled="{Binding Path=IsCapturing, ElementName=webCameraControl}" Name="buttonStopWebCam" Click="buttonStopWebCam_Click"/>
-                </StackPanel>
-
+            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+                <Button Content="Print" Width="80" Margin="20 5 0 40" Name="buttonPrint" Click="buttonPrint_Click"/>
+                <Button Content="PDF" Width="80" Margin="20 5 0 40"  IsEnabled="False" Name="buttonExportToPDF"/>
             </StackPanel>
 
-            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" >
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="History barcode"  Margin="20 10 20 10" />
-                    <Button Content="Select item" Width="120" Margin="20 10 20 10"  Name="buttonHistoryListSelectItem" Click="buttonHistoryListSelectItem_Click"/>
-                    <Button Content="Remove selected" Width="120" Margin="20 10 20 10"  Name="buttonHistoryRemoveSelected" Click="buttonHistoryRemoveSelected_Click"/>
-                    <Button Content="Clear list" Width="120" Margin="20 10 20 10"  Name="buttonHistoryListClear" Click="buttonHistoryListClear_Click"/>
-                </StackPanel>
+        </StackPanel>
 
-                <ListView Name="listBoxBarcodeHistory" Margin="20 0 20 0" Height="100">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="DateTime" Width="120" DisplayMemberBinding="{Binding CreatedAt, StringFormat=HH:mm dd.MM.yyyy}" />
-                            <GridViewColumn Header="Format" Width="100" DisplayMemberBinding="{Binding Format}" />
-                            <GridViewColumn Header="Barcode" Width="Auto" DisplayMemberBinding="{Binding Barcode}" />
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+        <!-- Image barcode block -->
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <Image Name="imageBarcode" Height="350" Margin="20"/>
+            <Button Content="Copy image to clipboard" Margin="20 0 20 10" Name="buttonBarcodeToClipboard" Click="buttonBarcodeToClipboard_Click" />
+            <Button Content="Save image to file" Margin="20 0 20 0" Name="buttonBarcodeImageToFile" Click="buttonBarcodeImageToFile_Click"/>
+        </StackPanel>
+
+        <!-- Parse block -->
+        <StackPanel Grid.Row="0" Grid.Column="2">
+
+            <Button Content="Parse from image file" Margin="20 20 20 0" Name="buttonReadFile" Click="buttonReadFile_Click"/>
+            <Button Content="Parse clipboard image" Margin="20 10 20 0" Name="buttonParseClipboard" Click="buttonParseClipboard_Click"/>
+            <Button Content="Parse screen" Margin="20 10 20 0" Name="buttonParseScreen" Click="buttonParseScreen_Click"/>
+
+            <ComboBox DisplayMemberPath="Name"  Margin="20 20 20 20" SelectionChanged="OnSelectionChanged"  Name="comboBoxListWebCam"/>
+
+            <Image Name="webCam"  Height="240" Width="320"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                <Button Content="StartCapture"  Margin="20 10 20 0" Width="100" Name="buttonStartWebCamCapture" Click="buttonStartWebCamCapture_Click"/>
+                <Button Content="Stop" Margin="20 10 20 0"  Width="100" IsEnabled="{Binding Path=IsCapturing, ElementName=webCameraControl}" Name="buttonStopWebCam" Click="buttonStopWebCam_Click"/>
+            </StackPanel>
+            <CheckBox Margin="20 10 20 0" Content="Beep after capture?"/>
+            <CheckBox Margin="20 10 20 0" Content="Stop after first capture?"/>
+
+        </StackPanel>
+
+        <!-- History -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" >
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="History barcode"  Margin="20 10 10 10" />
+
+                <Button Content="Select item" IsEnabled="{Binding Items.Count, ElementName=listBoxBarcodeHistory, Converter={StaticResource itemsCountToIsEnableConverter}}"                        
+                        Width="120" Margin="20 10 20 10"  Name="buttonHistoryListSelectItem" Click="buttonHistoryListSelectItem_Click"/>
+                
+                <Button Content="Remove selected" IsEnabled="{Binding Items.Count, ElementName=listBoxBarcodeHistory, Converter={StaticResource itemsCountToIsEnableConverter}}"  
+                        Width="120" Margin="20 10 20 10"  Name="buttonHistoryRemoveSelected" Click="buttonHistoryRemoveSelected_Click"/>
+                
+                <Button Content="Clear list" IsEnabled="{Binding Items.Count, ElementName=listBoxBarcodeHistory, Converter={StaticResource itemsCountToIsEnableConverter}}" 
+                        Width="120" Margin="20 10 20 10"  Name="buttonHistoryListClear" Click="buttonHistoryListClear_Click"/>
+                
             </StackPanel>
 
-        </Grid>
-    
+            <ListView Name="listBoxBarcodeHistory" Margin="20 0 20 0" Height="110">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Time" Width="120" DisplayMemberBinding="{Binding CreatedAt, StringFormat=HH:mm dd.MM.yyyy}" />
+                        <GridViewColumn Header="Format" Width="100" DisplayMemberBinding="{Binding Format}" />
+                        <GridViewColumn Header="Barcode" Width="Auto" DisplayMemberBinding="{Binding Barcode}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+        </StackPanel>
+
+    </Grid>
+
 </Window>
