@@ -18,13 +18,14 @@ namespace ArxGenBarcode.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is int?)) return true;
+            var boolValue = value as bool?;
 
-            if ((int?)value > 0)
+            if(boolValue != null && boolValue == true)
             {
-               return true;
+                return 1;
             }
-            return false;
+
+            return 0;
         }
     }
 }

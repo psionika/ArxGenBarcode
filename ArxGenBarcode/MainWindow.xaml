@@ -80,14 +80,12 @@
 
             <ComboBox DisplayMemberPath="Name"  Margin="20 20 20 20" SelectionChanged="OnSelectionChanged"  Name="comboBoxListWebCam"/>
 
-            <Image Name="webCam"  Height="240" Width="320"/>
+            <Image Name="imageWebCam"  Height="240" Width="320"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                <Button Content="StartCapture"  Margin="20 10 20 0" Width="100" Name="buttonStartWebCamCapture" Click="buttonStartWebCamCapture_Click"/>
+                <Button Content="Start Capture"  Margin="20 10 20 0" Width="100" Name="buttonStartWebCamCapture" Click="buttonStartWebCamCapture_Click"/>
                 <Button Content="Stop" Margin="20 10 20 0"  Width="100" IsEnabled="{Binding Path=IsCapturing, ElementName=webCameraControl}" Name="buttonStopWebCam" Click="buttonStopWebCam_Click"/>
             </StackPanel>
-            <CheckBox Margin="20 10 20 0" Content="Beep after capture?"/>
-            <CheckBox Margin="20 10 20 0" Content="Stop after first capture?"/>
 
         </StackPanel>
 

@@ -40,6 +40,10 @@ namespace ArxGenBarcode
         {
             comboBoxAllowFormat.ItemsSource = Current.Settings.PossibleFormats;
             comboBoxAllowFormat.SelectedIndex = 0;
+
+            LoaclWebCamsCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            comboBoxListWebCam.ItemsSource = LoaclWebCamsCollection;
+            comboBoxListWebCam.SelectedIndex = 0;
         }
 
         private void SetImageBarcodeSource()
@@ -81,8 +85,8 @@ namespace ArxGenBarcode
         {
             if (result != null)
             {
-                comboBoxAllowFormat.SelectedItem = result.BarcodeFormat;
                 textBoxBarcode.Text = result.Text;
+                comboBoxAllowFormat.SelectedItem = result.BarcodeFormat;
 
                 buttonGenerate_Click(this, null);
             }
@@ -233,19 +237,27 @@ namespace ArxGenBarcode
                 System.Drawing.Image img = (Bitmap)eventArgs.Frame.Clone();
 
                 MemoryStream ms = new MemoryStream();
-                img.Save(ms, ImageFormat.Bmp);
+                img.Save(ms, ImageFormat.Png);
                 ms.Seek(0, SeekOrigin.Begin);
                 BitmapImage bi = new BitmapImage();
+
                 bi.BeginInit();
                 bi.StreamSource = ms;
                 bi.EndInit();
 
                 bi.Freeze();
+
                 Dispatcher.BeginInvoke(new ThreadStart(delegate
                 {
-                    webCam.Source = bi;
-
+                    imageWebCam.Source = bi;
                     
+                    var result = Barcode.Decode(bi.GetBitmap());
+                    if(result != null && !string.IsNullOrEmpty(result.Text))
+                    {
+                        ProcessResult(result);
+
+                        LocalWebCam.Stop();
+                    }
                 }));
             }
             catch (Exception ex)
@@ -255,8 +267,11 @@ namespace ArxGenBarcode
 
         private void buttonStartWebCamCapture_Click(object sender, RoutedEventArgs e)
         {
-            LoaclWebCamsCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            LocalWebCam = new VideoCaptureDevice(LoaclWebCamsCollection[0].MonikerString);
+            var device = ((FilterInfo)comboBoxListWebCam.SelectedItem).MonikerString;
+            
+            LocalWebCam = new VideoCaptureDevice(device);
+            LocalWebCam.DesiredFrameSize = new System.Drawing.Size(640, 480);
+            LocalWebCam.DesiredFrameRate = 10;
             LocalWebCam.NewFrame += new NewFrameEventHandler(CamNewFrame);
 
             LocalWebCam.Start();
@@ -264,13 +279,26 @@ namespace ArxGenBarcode
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (LocalWebCam != null)
+            {
+                LocalWebCam.Stop();
 
+                if (comboBoxListWebCam != null
+               && comboBoxListWebCam.Items.Count > 0)
+                {
+                    LocalWebCam = (VideoCaptureDevice)comboBoxListWebCam.SelectedItem;
+                }
+            }
         }
 
         private void buttonStopWebCam_Click(object sender, RoutedEventArgs e)
         {
             if(LocalWebCam != null)
+            {
                 LocalWebCam.Stop();
+                imageWebCam.Source = null;
+            }
+                
         }
 
         private void buttonReadFile_Click(object sender, RoutedEventArgs e)
