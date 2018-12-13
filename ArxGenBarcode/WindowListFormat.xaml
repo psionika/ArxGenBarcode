@@ -4,9 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArxGenBarcode"
+        xmlns:converters="clr-namespace:ArxGenBarcode.Converters"
         mc:Ignorable="d"
         Title="Available formats" Height="540" Width="400" ResizeMode="NoResize">
-    
+
+    <Window.Resources>
+        <converters:ImageConverter x:Key="imageConverter" />
+    </Window.Resources>
+
     <Grid Background="#FFFFFF">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -17,8 +22,24 @@
             <ListBox x:Name="listBoxAllFormats" Height="450" Width="360">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox Content="{Binding BarcodeFormat}" 
-                                  IsChecked="{Binding IsAllow ,Mode=TwoWay}"/>
+                        <CheckBox Content="{Binding BarcodeFormat}" IsChecked="{Binding IsAllow ,Mode=TwoWay}">
+                            <CheckBox.ToolTip>
+                                <StackPanel>
+                                    <Label Content="{Binding BarcodeFormat}" FontWeight="Bold"/>
+
+                                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Width="500"/>
+                                    
+                                    <TextBlock Margin="20 20 20 0">
+                                        <Hyperlink NavigateUri="{Binding UrlToWiki}">
+                                            <TextBlock Text="{Binding UrlToWiki}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                    
+                                    <Image Margin="20" Source="{Binding Image, Converter={StaticResource imageConverter}}"/>
+
+                                </StackPanel>
+                            </CheckBox.ToolTip>
+                        </CheckBox>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

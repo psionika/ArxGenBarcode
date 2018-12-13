@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:converters="clr-namespace:ArxGenBarcode.Converters"
-        
+        xmlns:converters="clr-namespace:ArxGenBarcode.Converters"        
         mc:Ignorable="d"
         Title="ArxGenBarcode" Height="700" Width="1000" ResizeMode="CanMinimize">
     
@@ -32,23 +31,25 @@
         <StackPanel Grid.Row="0" Grid.Column="0">
 
             <Button Content="Paste from clipboard" Margin="20" Name="buttonPasteFromClipboard" Click="buttonPasteFromClipboard_Click"/>
-            <TextBox Name="textBoxBarcode" Margin="20 0 20 0" Height="80" TextWrapping="Wrap" Text="293639798817660318649NTDW8TNKOJKLKME3JIQIG78LR33SLV2MOY03LNMMLFTHZ2JTWXG435FPISGRM7AXLTEU45O7AVTCY95YRZGYVPS203S36DU30A7EADCC8MIYZBT7B9WGUHD6T72000828" TextChanged="textBoxBarcode_TextChanged"/>
+            <TextBox Name="textBoxBarcode" Margin="20 0 20 0" Height="80" TextWrapping="Wrap" Text="Type your barcode here..." TextChanged="textBoxBarcode_TextChanged"/>
             <Label Content="Barcode length: 150" Name="labelCount" Margin="20 0 20 0"/>
             <Button Content="Copy text to clipboard" Margin="20 0 20 0" Name="buttonCopyToClipboard" Click="buttonCopyToClipboard_Click"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                
                 <Label Content="Format:" Margin="0 20 10 0" />
                 <ComboBox Width="150"  Margin="0 20 0 0" Name="comboBoxAllowFormat" SelectionChanged="comboBoxAllowFormat_SelectionChanged"/>
                 <Button Margin="16 20 0 0" Content=" Manage " Name="buttonManageBarcodeFormatList"  Click="buttonManageBarcodeFormatList_Click"/>
+                
             </StackPanel>
 
             <Button Content="Rotate" Margin="20 20 20 0" Name="buttonRotate"  Click="buttonRotate_Click"/>
 
             <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
-
+                
                 <Label Content="Noise level:"  Margin="20 20 0 0" />
                 <TextBox VerticalAlignment="Center" Text="0.1" Name="textBoxNoise"  Margin="10 20 10 0" />
-                <Button Content="Add Noise" Click="ButtonNoise_Click" Width="120" Margin="20 20 20 0" />
+                <Button Content="Add Noise" Click="ButtonNoise_Click" Width="120" Margin="20 20 20 0" />       
                 
             </StackPanel>
 
@@ -58,8 +59,10 @@
             <TextBox Text="" Name="textBoxComment" Margin="20 0 20 0" Height="40" TextWrapping="Wrap" />
 
             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+                
                 <Button Content="Print" Width="80" Margin="20 5 0 40" Name="buttonPrint" Click="buttonPrint_Click"/>
                 <Button Content="PDF" Width="80" Margin="20 5 0 40"  IsEnabled="False" Name="buttonExportToPDF"/>
+                
             </StackPanel>
 
         </StackPanel>

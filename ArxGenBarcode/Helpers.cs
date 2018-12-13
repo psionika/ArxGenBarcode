@@ -30,15 +30,17 @@ namespace ArxGenBarcode
 
         public static BitmapImage ToWpfImage(this Image img)
         {
-            MemoryStream ms = new MemoryStream();  // no using here! BitmapImage will dispose the stream after loading
-            img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+            using (var memoryStream = new MemoryStream())
+            {
+                img.Save(memoryStream, ImageFormat.Png);
 
-            BitmapImage bitMapImage = new BitmapImage();
-            bitMapImage.BeginInit();
-            bitMapImage.CacheOption = BitmapCacheOption.OnLoad;
-            bitMapImage.StreamSource = ms;
-            bitMapImage.EndInit();
-            return bitMapImage;
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.StreamSource = memoryStream;
+                image.EndInit();
+                return image;
+            }
         }
 
         public static Bitmap AddSpeckleNoise(Bitmap bmp, float v = 0.04f)
