@@ -47,7 +47,7 @@ namespace ArxGenBarcode
 
                 if (noise != 0)
                 {
-                    return Helpers.AddSpeckleNoise(bitmap, noise);
+                    return Helpers.ForImage.AddSpeckleNoise(bitmap, noise);
                 }
             }
             catch (Exception ex)

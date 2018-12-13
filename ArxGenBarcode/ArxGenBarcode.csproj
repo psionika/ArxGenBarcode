@@ -55,10 +55,18 @@
     <Reference Include="AForge.Video.DirectShow, Version=2.2.3.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
       <HintPath>..\packages\AForge.Video.DirectShow.2.2.3\lib\AForge.Video.DirectShow.dll</HintPath>
     </Reference>
+    <Reference Include="PdfSharp-WPF, Version=1.31.1789.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\kenjiuno.PdfSharp-WPF.1.31.1789\lib\net40\PdfSharp-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Xps, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\kenjiuno.PdfSharp.Xps.1.0.0\lib\net40\PdfSharp.Xps.dll</HintPath>
+    </Reference>
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -89,6 +97,8 @@
     <Compile Include="Converters\NullVisibilityConverter.cs" />
     <Compile Include="DataModels\Format.cs" />
     <Compile Include="DataModels\HistoryElement.cs" />
+    <Compile Include="Helpers\ForKeyboard.cs" />
+    <Compile Include="Helpers\ForPrinting.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="WindowListFormat.xaml.cs">
       <DependentUpon>WindowListFormat.xaml</DependentUpon>
@@ -101,7 +111,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers.cs" />
+    <Compile Include="Helpers\ForImage.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -180,6 +190,8 @@
     <Content Include="Image\UPC_A.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Messages.de.txt" />
+    <Resource Include="Resources\Messages.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Image\Codabar.png">

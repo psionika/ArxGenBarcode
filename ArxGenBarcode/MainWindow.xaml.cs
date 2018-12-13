@@ -18,6 +18,10 @@ using AForge.Video.DirectShow;
 using ZXing;
 using System.Collections.Generic;
 using ArxGenBarcode.DataModels;
+using System.IO.Packaging;
+using System.Windows.Xps.Packaging;
+using System.Windows.Xps.Serialization;
+using ArxGenBarcode.Helpers;
 
 namespace ArxGenBarcode
 {
@@ -127,39 +131,39 @@ namespace ArxGenBarcode
 
         private void buttonPrint_Click(object sender, RoutedEventArgs e)
         {
-            BitmapImage bi = (BitmapImage)imageBarcode.Source; 
+            var helpers = new Helpers.ForPrinting((BitmapImage)imageBarcode.Source,
+                                                   textBoxBarcode.Text,
+                                                   (BarcodeFormat)comboBoxAllowFormat.SelectedItem,
+                                                   textBoxComment.Text);
 
-            System.Windows.Controls.Image image = new System.Windows.Controls.Image();
-            image.Source = bi;
-            image.Height = 200;            
-            var containerImage = new InlineUIContainer(image);
+            helpers.Print();
 
-            var pd = new PrintDialog();
-
-            if (pd.ShowDialog() == true)
-            {
-                FlowDocument fd = new FlowDocument();
-                fd.Blocks.Add(new Paragraph(new Run("")));
-
-                var paragraphTitle = new Paragraph();
-                paragraphTitle.Inlines.Add(new Bold(new Run("ArxGenBarcode")));
-                paragraphTitle.Inlines.Add(new Run("\n" + DateTime.Now.ToLongTimeString() + ", " + DateTime.Now.ToLongDateString()));
-
-                fd.Blocks.Add(paragraphTitle);
-
-                fd.Blocks.Add(new Paragraph(containerImage));
-
-                fd.Blocks.Add(new Paragraph(new Run("Data: "    + textBoxBarcode.Text)));
-
-                fd.Blocks.Add(new Paragraph(new Run("Format: "  + comboBoxAllowFormat.SelectedItem)));
-
-                fd.Blocks.Add(new Paragraph(new Run("Comment: " + textBoxComment.Text)));
-
-                pd.PrintDocument((fd as IDocumentPaginatorSource).DocumentPaginator, "A print document");
-            }
-
+            
         }
 
+        private void buttonExportToPDF_Click(object sender, RoutedEventArgs e)
+        {
+            var helpers = new Helpers.ForPrinting((BitmapImage)imageBarcode.Source,
+                                                   textBoxBarcode.Text,
+                                                   (BarcodeFormat)comboBoxAllowFormat.SelectedItem,
+                                                   textBoxComment.Text);
+
+
+            helpers.ExportToPDF();
+        }
+
+
+        private void buttonExportToXPS_Click(object sender, RoutedEventArgs e)
+        {
+            var helpers = new Helpers.ForPrinting((BitmapImage)imageBarcode.Source,
+                                                   textBoxBarcode.Text,
+                                                   (BarcodeFormat)comboBoxAllowFormat.SelectedItem,
+                                                   textBoxComment.Text);
+
+
+            helpers.ExportToXPS();
+        }
+  
         private void buttonCopyToClipboard_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(textBoxBarcode.Text))
@@ -353,7 +357,7 @@ namespace ArxGenBarcode
             this.WindowState = WindowState.Minimized;
             var allProcesses = Process.GetProcesses().ToList();
 
-            Helpers.PressKeysToScissors();
+            Helpers.ForKeyboard.PressKeysToScissors();
 
             //TODO!!!
             bool scissorsRuning = true;
@@ -401,5 +405,7 @@ namespace ArxGenBarcode
         {
             SetImageBarcodeSource();
         }
+
+
     }
 }
