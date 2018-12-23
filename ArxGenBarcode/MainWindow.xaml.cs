@@ -1,27 +1,20 @@
-﻿using System;
+﻿using AForge.Video;
+using AForge.Video.DirectShow;
+using ArxGenBarcode.DataModels;
+using ArxGenBarcode.Helpers;
+using Microsoft.Win32;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Microsoft.Win32;
-using AForge.Video;
-using AForge.Video.DirectShow;
 using ZXing;
-using System.Collections.Generic;
-using ArxGenBarcode.DataModels;
-using System.IO.Packaging;
-using System.Windows.Xps.Packaging;
-using System.Windows.Xps.Serialization;
-using ArxGenBarcode.Helpers;
 
 namespace ArxGenBarcode
 {
@@ -160,7 +153,6 @@ namespace ArxGenBarcode
                                                    (BarcodeFormat)comboBoxAllowFormat.SelectedItem,
                                                    textBoxComment.Text);
 
-
             helpers.ExportToXPS();
         }
   
@@ -199,6 +191,15 @@ namespace ArxGenBarcode
         private void buttonRotate_Click(object sender, RoutedEventArgs e)
         {
             var bitmapBarcode = Barcode.Generate(textBoxBarcode.Text, (BarcodeFormat)comboBoxAllowFormat.SelectedItem, GetNoiseValue(), true);
+            imageBarcode.Source = bitmapBarcode.ToWpfImage();
+        }
+
+        private void buttonBlur_Click(object sender, RoutedEventArgs e)
+        {
+            var bitmapBarcode = Barcode.Generate(textBoxBarcode.Text, (BarcodeFormat)comboBoxAllowFormat.SelectedItem, GetNoiseValue(), false, true);
+
+
+
             imageBarcode.Source = bitmapBarcode.ToWpfImage();
         }
 
@@ -264,9 +265,7 @@ namespace ArxGenBarcode
                     }
                 }));
             }
-            catch (Exception ex)
-            {
-            }
+            catch { }
         }
 
         private void buttonStartWebCamCapture_Click(object sender, RoutedEventArgs e)

@@ -43,8 +43,14 @@
                 
             </StackPanel>
 
-            <Button Content="Rotate" Margin="20 20 20 0" Name="buttonRotate"  Click="buttonRotate_Click"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
+                <Button Content="Rotate" Width="120" Margin="20 20 20 0" Name="buttonRotate"  Click="buttonRotate_Click"/>
+                <Button Content="Blur" Width="120" Margin="20 20 20 0" Name="buttonBlur" Click="buttonBlur_Click" />
+
+            </StackPanel>
+
+           
             <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
                 
                 <Label Content="Noise level:"  Margin="20 20 0 0" />
@@ -87,8 +93,8 @@
             <Image Name="imageWebCam"  Height="240" Width="320"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                <Button Content="Start Capture"  Margin="20 10 20 0" Width="100" Name="buttonStartWebCamCapture" Click="buttonStartWebCamCapture_Click"/>
-                <Button Content="Stop" Margin="20 10 20 0"  Width="100" IsEnabled="{Binding Path=IsCapturing, ElementName=webCameraControl}" Name="buttonStopWebCam" Click="buttonStopWebCam_Click"/>
+                <Button Content="Start Capture"  Margin="20 10 20 0" Width="120" Name="buttonStartWebCamCapture" Click="buttonStartWebCamCapture_Click"/>
+                <Button Content="Stop" Margin="20 10 20 0"  Width="120" IsEnabled="{Binding Path=IsCapturing, ElementName=webCameraControl}" Name="buttonStopWebCam" Click="buttonStopWebCam_Click"/>
             </StackPanel>
 
         </StackPanel>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArxGenBarcode.Helpers;
+using System;
 using System.Drawing;
 using System.Windows;
 using ZXing;
@@ -9,7 +10,12 @@ namespace ArxGenBarcode
     {
         private static double currentRotate = 0;
 
-        public static Bitmap Generate(string barcode, BarcodeFormat barcodeFormat, float noise, bool rotate)
+        public static Bitmap Generate(string barcode, BarcodeFormat barcodeFormat)
+        {
+            return Generate(barcode, barcodeFormat, 0, false);
+        }
+
+        public static Bitmap Generate(string barcode, BarcodeFormat barcodeFormat, float noise, bool rotate = false, bool blur = false)
         {
             var bitmap = new Bitmap(1, 1);
 
@@ -47,7 +53,12 @@ namespace ArxGenBarcode
 
                 if (noise != 0)
                 {
-                    return Helpers.ForImage.AddSpeckleNoise(bitmap, noise);
+                    bitmap = Helpers.ForImage.AddSpeckleNoise(bitmap, noise);
+                }
+
+                if(blur)
+                {
+                   bitmap = ForImage.Blur(bitmap, 2);
                 }
             }
             catch (Exception ex)
